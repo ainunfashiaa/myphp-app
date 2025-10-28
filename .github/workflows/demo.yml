@@ -3,8 +3,7 @@ name: CI/CD PHP App
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -34,7 +33,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && secrets.KUBE_CONFIG != ''
 
     steps:
       - name: Checkout code
@@ -45,7 +44,7 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Set KUBECONFIG
+      - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
