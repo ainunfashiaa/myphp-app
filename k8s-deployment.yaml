@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-demo
+  template:
+    metadata:
+      labels:
+        app: php-demo
+    spec:
+      containers:
+        - name: php-demo
+          image: ghcr.io/<ainunfashia>/php-demo:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-demo-service
+spec:
+  selector:
+    app: php-demo
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
