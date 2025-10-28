@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: php-demo
+  labels:
+    app: php-demo
 spec:
   replicas: 1
   selector:
@@ -14,9 +16,13 @@ spec:
     spec:
       containers:
         - name: php-demo
-          image: ghcr.io/<ainunfashia>/php-demo:latest
+          image: dockerhub_aynun/php-demo:latest
           ports:
             - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -26,6 +32,7 @@ spec:
   selector:
     app: php-demo
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 80
   type: LoadBalancer
