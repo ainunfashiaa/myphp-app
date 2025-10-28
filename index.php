@@ -1,3 +1,4 @@
 <?php
-echo "Hello from PHP CI/CD Pipeline!";
+echo "Hello I'm Ainun Fashia Aksan!";
+echo "NIM : 2210512014";
 ?>
